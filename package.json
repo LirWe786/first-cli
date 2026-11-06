@@ -5,7 +5,7 @@
   "homepage": "https://github.com/LirWe786/first-cli#readme",
   "bin": {
     "my-cli": "./index.js"
-  },   
+  },
   "bugs": {
     "url": "https://github.com/LirWe786/first-cli/issues"
   },
@@ -21,6 +21,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
+    "@inquirer/prompts": "^8.7.5",
     "commander": "^15.0.0"
   }
 }
