@@ -1,0 +1,20 @@
+{
+  "name": "firstcli",
+  "version": "1.0.0",
+  "description": "my first cli ",
+  "homepage": "https://github.com/LirWe786/first-cli#readme",
+  "bugs": {
+    "url": "https://github.com/LirWe786/first-cli/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LirWe786/first-cli.git"
+  },
+  "license": "ISC",
+  "author": "Chin-Giz Priymak",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
