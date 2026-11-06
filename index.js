@@ -35,10 +35,10 @@ program
                 case "read":
                     // await
                     console.log("Извините, это пока в разработке :(")
-                    break main;
+                    break ;
                 case 'delete':
                     // await
-                    break main;
+                    break ;
                 case 'exit':
                     break main;
 
