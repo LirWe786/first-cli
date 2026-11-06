@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "my first cli ",
   "homepage": "https://github.com/LirWe786/first-cli#readme",
-  "bin":{
+  "bin": {
     "my-cli": "./index.js"
   },
   "bugs": {
@@ -19,5 +19,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "commander": "^15.0.0"
   }
 }
