@@ -26,15 +26,15 @@ program
 
 
             const filepath = path.join(currentDir, `${filename}`)
-            console.log(filepath);
-            await fs.writeFile(filepath, content, 'utf-8', (error) => {
+            console.log(content);
+            await fs.writeFile(filepath, content || '', 'utf-8', (error) => {
                 console.log('ошибка записи файла')
-                throw new Error(error)
+                throw new Error(error.message)
             })
 
         } catch (error) {
             console.log('ошибка записи файла')
-            throw new Error(error)
+            throw new Error(error.message)
         }
     })
 
@@ -49,11 +49,11 @@ program
             const filePath = path.join(currentDir, filename)
             data = await fs.readFile(filePath, 'utf-8', (error) => {
                 console.log('Ошибка чтения файла');
-                throw new Error(error)
+                throw new Error(error.message)
             })
         }
         catch (error) {
-            throw new Error(error)
+            throw new Error(error.message)
         }
         console.log(data)
     })
