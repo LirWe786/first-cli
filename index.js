@@ -4,7 +4,7 @@ import { program } from 'commander'
 import process from 'node:process'
 import fs from 'node:fs/promises'
 import path from 'node:path'
-import { fileURLToPath } from 'url';
+
 
 
 const currentDir = process.cwd();
@@ -15,7 +15,7 @@ program
     .version('1.0.0')
 
 program
-    .command('create_file')
+    .command('createFile')
     .argument('<filename>', 'имя файла')
 
     .argument('[content]', 'содержимое файла')
@@ -36,6 +36,26 @@ program
             console.log('ошибка записи файла')
             throw new Error(error)
         }
+    })
+
+program
+    .command('readFile')
+    .argument('<filename>', 'имя читаемого файла')
+    .action(async (filename) => {
+
+        let data;
+
+        try {
+            const filePath = path.join(currentDir, filename)
+            data = await fs.readFile(filePath, 'utf-8', (error) => {
+                console.log('Ошибка чтения файла');
+                throw new Error(error)
+            })
+        }
+        catch (error) {
+            throw new Error(error)
+        }
+        console.log(data)
     })
 
 program.parse(process.argv);

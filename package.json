@@ -5,7 +5,7 @@
   "homepage": "https://github.com/LirWe786/first-cli#readme",
   "bin": {
     "my-cli": "./index.js"
-  },
+  },   
   "bugs": {
     "url": "https://github.com/LirWe786/first-cli/issues"
   },
