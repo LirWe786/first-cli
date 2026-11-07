@@ -18,7 +18,7 @@ export async function createFile() {
             default: 'new file',
             validate: (value) => {
                 if (value.trim() === '') {
-                    console.log("!!!заполните поле!!!")
+                    console.log("!!!Заполните поле!!!");
                     return false
                 }
                 return true
@@ -47,4 +47,29 @@ export async function createFile() {
 }
 
 
+
+export async function readFile(params) {
+
+
+    try {
+        const fileName = await input({
+            message: 'Какой файл вы хотите прочитать?',
+            default: '',
+            validate: (value) => {
+                if (value.trim() === '') {
+                    console.log("!!!Заполните поле!!!")
+                    return false
+                }
+                return true
+            }
+        })
+        const filePath = path.join(currentDir, fileName)
+        const fileData = await fs.readFile(filePath, "utf-8")
+        console.log('Чтение файла завершенно: ')
+        console.log(fileData)
+
+    } catch (error) {
+        console.log("Ошибка создания файла:", error.message)
+    }
+}
 

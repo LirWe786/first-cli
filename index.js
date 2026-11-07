@@ -3,7 +3,7 @@
 import { program } from 'commander'
 import { select, input } from "@inquirer/prompts"
 import process from 'node:process'
-import { createFile } from './modules/crud.js'
+import { createFile, readFile } from './modules/crud.js'
 
 
 
@@ -33,12 +33,12 @@ program
                     await createFile();
                     break;
                 case "read":
-                    // await
-                    console.log("Извините, это пока в разработке :(")
-                    break ;
+                    await readFile();
+                    break;
                 case 'delete':
                     // await
-                    break ;
+                    console.log("Извините, это пока в разработке :(")
+                    break;
                 case 'exit':
                     break main;
 
@@ -50,63 +50,6 @@ program
     })
 
 
-
-
-// program
-//     .command('createFile')
-//     .argument('<filename>', 'имя файла')
-
-//     .argument('[content]', 'содержимое файла')
-//     .action(async (filename, content) => {
-//         console.log(`file ${filename} creating...`);
-
-//         try {
-
-
-//             const filepath = path.join(currentDir, `${filename}`)
-//             console.log(content);
-//             await fs.writeFile(filepath, content || '', 'utf-8')
-
-//         } catch (error) {
-//             console.log('ошибка записи файла')
-//             throw new Error(error.message)
-//         }
-//     })
-
-// program
-//     .command('readFile')
-//     .argument('<filename>', 'имя читаемого файла')
-//     .action(async (filename) => {
-
-//         let data;
-
-//         try {
-//             const filePath = path.join(currentDir, filename)
-//             data = await fs.readFile(filePath, 'utf-8')
-//         }
-//         catch (error) {
-//             throw new Error(error.message)
-//         }
-//         console.log(data)
-//     })
-
-// program
-//     .command('deleteFile')
-//     .argument('<filename>', 'имя удаляемого файла')
-//     .action(async (filename) => {
-
-//         console.log('Файл удаляется...')
-
-//         try {
-//             const filePath = path.join(currentDir, filename);
-//             await fs.unlink(filePath)
-
-//         } catch (error) {
-//             throw new Error(error)
-//         }
-
-
-//     })
 
 
 program.parse(process.argv);
