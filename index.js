@@ -3,7 +3,8 @@
 import { program } from 'commander'
 import { select, input } from "@inquirer/prompts"
 import process from 'node:process'
-import { createFile, readFile, deleteFile } from './modules/crud.js'
+import { createFile, readFile, deleteFiles } from './modules/crud.js'
+
 
 
 
@@ -44,7 +45,7 @@ program
                     await readFile();
                     break;
                 case 'delete':
-                    await deleteFile();
+                    await deleteFiles();
                     break;
                 case 'exit':
                     break main;
