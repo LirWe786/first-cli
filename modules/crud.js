@@ -5,8 +5,8 @@ import path from "node:path";
 
 
 const currentDir = process.cwd();
-const pathToLog = path.join(currentDir, '../logs/logs.txt')
-const date = new Date()
+// const pathToLog = path.join(currentDir, '../logs/logs.txt')
+// const date = new Date()
 
 
 async function createFilesList() {
@@ -22,18 +22,43 @@ async function createFilesList() {
 
 }
 
+async function toMakeChoiseListOrHandle(text, choiseWay, currentFile) {
+    if (choiseWay == 'list') {
+        const dirList = await createFilesList()
+        currentFile = await select({
+            message: 'Выберите файл: ',
+            choices: dirList,
+            default: dirList[0]
+        })
+    }
+    if (choiseWay == 'handle') {
+        currentFile = await input({
+            message: `Какой файл вы хотите ${text}?`,
+            default: '',
+            validate: (value) => {
+                if (value.trim() === '') {
+                    console.warn("\n !!!Заполните поле!!!")
+                    return false
+                }
+                return true
+            }
+        })
+    }
+}
+
+
+
 export async function createFile() {
     try {
-        // await fs.appendFile(pathToLog, `\n \n starting func createFile} \n time:${date.getTime()} `, "utf-8")
 
         let fileData = ''
 
         const fileName = await input({
             message: 'Напишите название файла (с разширением)',
-            default: 'new file',
+            default: '',
             validate: (value) => {
                 if (value.trim() === '') {
-                    console.log("!!!Заполните поле!!!");
+                    console.warn("!!!Заполните поле!!!");
                     return false
                 }
                 return true
@@ -65,11 +90,10 @@ export async function createFile() {
 
 export async function readFile(params) {
 
-
     try {
         // await fs.appendFile(pathToLog, `\n \n starting func readFile} \n time:${date.getTime()} `, "utf-8")
         const choiseWay = await select({
-            message: 'Выберите из списка доступных файлов или введите название сами: ',
+            message: '\n Выберите из списка доступных файлов или введите название файла: ',
             choices: [
                 { name: 'Список файлов', value: 'list' },
                 { name: 'Ручной ввод', value: 'handle' }
@@ -79,28 +103,7 @@ export async function readFile(params) {
 
         let currentFile = '';
 
-        if (choiseWay == 'list') {
-            // await fs.appendFile(pathToLog, `\n choise is list, if started  time:${date.getTime()} `, "utf-8")
-            const dirList = await createFilesList()
-            currentFile = await select({
-                message: 'Выберите файл: ',
-                choices: dirList,
-                default: dirList[0]
-            })
-        }
-        if (choiseWay == 'handle') {
-            currentFile = await input({
-                message: 'Какой файл вы хотите прочитать?',
-                default: '',
-                validate: (value) => {
-                    if (value.trim() === '') {
-                        console.log("!!!Заполните поле!!!")
-                        return false
-                    }
-                    return true
-                }
-            })
-        }
+        await toMakeChoiseListOrHandle('прочитать', choiseWay);
 
         const filePath = path.join(currentDir, currentFile)
         const fileData = await fs.readFile(filePath, "utf-8")
@@ -114,3 +117,46 @@ export async function readFile(params) {
     }
 }
 
+export async function deleteFiles(params) {
+    try {
+        let choiseWay = await select({
+            message: '\n Выберите из списков доступных файлов или введите название файла:',
+            choices: [
+                { name: 'Список файлов', value: 'list' },
+                { name: 'Ручной ввод', value: 'handle' }
+            ],
+            default: 'handle'
+        })
+        console.log('choiseWay')
+        let currentFile = '';
+
+        await toMakeChoiseListOrHandle('удалить', choiseWay, currentFile);
+
+        const filePath = path.join(currentDir, currentFile);
+
+        const isAgree = await confirm({
+            message: `\n ПРЕДУПРЕЖДЕНИЕ: Вы уверены чо хотите удалить файл по пути: ${filePath}? \n Изменения будут необратимы! `,
+            default: false,
+
+        })
+
+        if (isAgree === true) {
+            await fs.unlink(filePath);
+            console.log(`\n Файл по пути ${filePath} успешно удалён`);
+            return true
+        } else {
+            console.log('\n Удаление файла отменено')
+            return false
+        }
+
+
+    } catch (error) {
+
+
+        if (error.code === 'EBUSY') {
+            console.log('\n Ошибка удаления файла: файл занят или недоступен ')
+        } else {
+            console.log('\n Ошибка чтения удаления файла: ',  error)
+        }
+    }
+}
