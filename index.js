@@ -3,11 +3,19 @@
 import { program } from 'commander'
 import { select, input } from "@inquirer/prompts"
 import process from 'node:process'
-import { createFile, readFile } from './modules/crud.js'
+import { createFile, readFile, deleteFile } from './modules/crud.js'
 
 
 
-
+process.on('uncaughtException', (error) => {
+    if (error instanceof Error && error.name === 'ExitPromptError') {
+        console.log('\n Программа экстренно закрыта пользователем')
+        process.exit(0)
+    } else {
+        console.log(error)
+        process.exit(1)
+    }
+})
 
 
 program
@@ -36,8 +44,7 @@ program
                     await readFile();
                     break;
                 case 'delete':
-                    // await
-                    console.log("Извините, это пока в разработке :(")
+                    await deleteFile();
                     break;
                 case 'exit':
                     break main;

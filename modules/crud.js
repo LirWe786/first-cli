@@ -4,6 +4,8 @@ import fs from 'node:fs/promises';
 import path from "node:path";
 
 
+
+
 const currentDir = process.cwd();
 
 
@@ -69,7 +71,39 @@ export async function readFile(params) {
         console.log(fileData)
 
     } catch (error) {
-        console.log("Ошибка создания файла:", error.message)
+        console.log("Ошибка чтения файла:", error.message)
     }
 }
 
+export async function deleteFile(params) {
+    try {
+
+        const fileName = await input({
+            message: 'Какой файл вы хотите удалить?',
+            validate: (value) => {
+                if (value.trim() === '') {
+                    console.log('!!!Заполните поле!!!');
+                    return false
+                }
+                return true
+            }
+        })
+        const filePath = path.join(currentDir, fileName);
+
+        const isAgree = await confirm({
+            message: `ПРЕДУПРЕЖДЕНИЕ: файл по пути ${filePath} будет  безвозвратно удалён, это действие отменить уже будет нельзя`,
+            default: false,
+
+        })
+        if (isAgree) {
+            await fs.unlink(filePath)
+            console.log(`Файл ${fileName} по пути ${filePath} успешно удалён`)
+        } else {
+            console.log('Удаление файла отменено')
+            return;
+        }
+
+    } catch (error) {
+        console.log("Ошибка удаления файла: ", error.message)
+    }
+}
